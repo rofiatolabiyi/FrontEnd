@@ -1,0 +1,7 @@
+{
+  "name": "mini-game-hub",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
