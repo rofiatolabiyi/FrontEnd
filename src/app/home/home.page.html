@@ -1,20 +1,30 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Mini Game Hub</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+    <ion-radio-group [(ngModel)]="selectedGame">
+      <ion-item>
+        <ion-label>Quiz Challenge</ion-label>
+        <ion-radio slot="end" value="quiz"></ion-radio>
+      </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+      <ion-item>
+        <ion-label>Memory Match</ion-label>
+        <ion-radio slot="end" value="memory"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Number Guess</ion-label>
+        <ion-radio slot="end" value="guess"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-button expand="block" (click)="startGame()">
+    Play
+  </ion-button>
 </ion-content>
