@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- Back button -->
+    <ion-buttons slot="start">
+      <ion-back-button text="Home"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Number Guessing Game</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Guess the Number</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Difficulty</ion-label>
+        <ion-select [(ngModel)]="difficulty" (ionChange)="setDifficulty()">
+          <ion-select-option value="easy">Easy (1-10)</ion-select-option>
+          <ion-select-option value="medium">Medium (1-50)</ion-select-option>
+          <ion-select-option value="hard">Hard (1-100)</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <p>{{ message }}</p>
+      <p><strong>Attempts:</strong> {{ attempts }}</p>
+
+      <p><strong>Best Easy:</strong> {{ bestEasy || 'None' }}</p>
+      <p><strong>Best Medium:</strong> {{ bestMedium || 'None' }}</p>
+      <p><strong>Best Hard:</strong> {{ bestHard || 'None' }}</p>
+
+      <ion-input
+        type="number"
+        placeholder="Enter your guess"
+        [(ngModel)]="userGuess"
+        [disabled]="gameOver"
+      >
+      </ion-input>
+
+      <ion-button expand="block" (click)="checkGuess()" [disabled]="gameOver">
+        Check Guess
+      </ion-button>
+
+      <ion-button expand="block" color="tertiary" (click)="restartGame()">
+        Restart Game
+      </ion-button>
+
+      <ion-button expand="block" color="danger" (click)="clearGuessScores()">
+        Clear Best Scores
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+guess.page.scss

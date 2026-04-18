@@ -4,7 +4,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
+  <h2>Choose a Game</h2>
+
   <ion-list>
     <ion-radio-group [(ngModel)]="selectedGame">
       <ion-item>
@@ -26,5 +28,13 @@
 
   <ion-button expand="block" (click)="startGame()">
     Play
+  </ion-button>
+
+  <ion-button expand="block" fill="outline" (click)="openScores()">
+    Scores
+  </ion-button>
+
+  <ion-button expand="block" fill="outline" (click)="openSettings()">
+    Settings
   </ion-button>
 </ion-content>

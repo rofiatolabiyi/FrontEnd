@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Scores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Your Quiz Scores</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Latest Score:</strong> {{ latestScore }}</p>
+      <p><strong>High Score:</strong> {{ highScore }}</p>
+
+      <ion-button expand="block" color="danger" (click)="clearScores()">
+        Clear Scores
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

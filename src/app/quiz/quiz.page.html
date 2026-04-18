@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Quiz</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="questions.length > 0 && !quizFinished; else loadingOrFinished">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <h2 [innerHTML]="currentQuestion?.question"></h2>
+
+        <ion-button
+          *ngFor="let answer of currentQuestion?.answers"
+          expand="block"
+          [fill]="getButtonFill(answer)"
+          [color]="getButtonColor(answer)"
+          (click)="selectAnswer(answer)"
+        >
+          <span [innerHTML]="answer"></span>
+        </ion-button>
+
+        <p>
+          <strong>Selected Answer:</strong>
+          <span [innerHTML]="selectedAnswer || 'None'"></span>
+        </p>
+
+        <ion-button
+          expand="block"
+          (click)="submitAnswer()"
+          [disabled]="answerSubmitted"
+        >
+          Submit Answer
+        </ion-button>
+
+        <p *ngIf="answerSubmitted">
+          <span [innerHTML]="resultMessage"></span>
+        </p>
+
+        <ion-button
+          *ngIf="answerSubmitted"
+          expand="block"
+          color="tertiary"
+          (click)="nextQuestion()"
+        >
+          Next Question
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ng-template #loadingOrFinished>
+    <div *ngIf="quizFinished; else loading">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Quiz Complete</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <h2>Your Score: {{ score }} / {{ questions.length }}</h2>
+
+          <ion-button expand="block" (click)="restartQuiz()">
+            Restart Quiz
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-template>
+
+  <ng-template #loading>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Loading Quiz...</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>Please wait while the questions load.</p>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>

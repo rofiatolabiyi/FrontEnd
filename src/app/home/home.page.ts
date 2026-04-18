@@ -68,4 +68,12 @@ export class HomePage implements OnInit {
       this.router.navigate(['/guess']);
     }
   }
+
+  openScores() {
+    this.router.navigate(['/scores']);
+  }
+
+  openSettings() {
+    this.router.navigate(['/settings']);
+  }
 }
