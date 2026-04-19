@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
-
-    <!-- Back button -->
     <ion-buttons slot="start">
-      <ion-back-button text="Home"></ion-back-button>
+      <ion-back-button defaultHref="/home" text="Home"></ion-back-button>
     </ion-buttons>
     
     <ion-title>Memory Match</ion-title>
@@ -11,5 +9,47 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h1>Memory Page Works</h1>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Memory Match</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Moves:</strong> {{ moves }}</p>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3" *ngFor="let card of cards">
+            <div
+              class="memory-card"
+              [class.flipped]="card.flipped || card.matched"
+              [class.matched]="card.matched"
+              (click)="flipCard(card)"
+            >
+              <img
+                *ngIf="card.flipped || card.matched"
+                [src]="card.image"
+                class="card-img"
+              />
+
+              <img
+                *ngIf="!card.flipped && !card.matched"
+                src="assets/images/card-back.png"
+                class="card-img"
+              />
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <div *ngIf="gameWon" class="win-message">
+        <h2>You Win! 🎉</h2>
+        <p>You finished in {{ moves }} moves.</p>
+      </div>
+
+      <ion-button expand="block" color="tertiary" (click)="startGame()">
+        Restart Game
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

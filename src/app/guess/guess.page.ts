@@ -13,7 +13,7 @@ import { Storage } from '@ionic/storage-angular';
   imports: [IonItem,IonLabel,IonSelect,IonSelectOption, IonCard,IonCardHeader,IonCardTitle,IonCardContent,IonButton,IonInput, IonContent,IonButtons,IonBackButton, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class GuessPage implements OnInit {
-difficulty: string = 'easy';
+  difficulty: string = 'easy';
   maxNumber: number = 10;
   secretNumber: number = 0;
   userGuess: number | null = null;
@@ -27,19 +27,22 @@ difficulty: string = 'easy';
 
   constructor(private storage: Storage) {}
 
-   async ngOnInit() {
+  async ngOnInit() {
     await this.storage.create();
     await this.loadBestScores();
+    await this.loadDifficulty();
     this.startNewGame();
   }
 
-  async loadBestScores() {
-    this.bestEasy = (await this.storage.get('bestEasy')) ?? 0;
-    this.bestMedium = (await this.storage.get('bestMedium')) ?? 0;
-    this.bestHard = (await this.storage.get('bestHard')) ?? 0;
+  async ionViewWillEnter() {
+    await this.loadDifficulty();
+    this.startNewGame();
   }
 
-  setDifficulty() {
+  async loadDifficulty() {
+    const savedDifficulty = await this.storage.get('guessDifficulty');
+    this.difficulty = savedDifficulty || 'easy';
+
     if (this.difficulty === 'easy') {
       this.maxNumber = 10;
     } else if (this.difficulty === 'medium') {
@@ -47,8 +50,12 @@ difficulty: string = 'easy';
     } else {
       this.maxNumber = 100;
     }
+  }
 
-    this.startNewGame();
+  async loadBestScores() {
+    this.bestEasy = (await this.storage.get('bestEasy')) ?? 0;
+    this.bestMedium = (await this.storage.get('bestMedium')) ?? 0;
+    this.bestHard = (await this.storage.get('bestHard')) ?? 0;
   }
 
   startNewGame() {
@@ -60,28 +67,28 @@ difficulty: string = 'easy';
   }
 
   async checkGuess() {
-  if (this.userGuess === null) {
-    this.message = 'Please enter a number';
-    return;
-  }
+    if (this.userGuess === null) {
+      this.message = 'Please enter a number';
+      return;
+    }
 
-  if (this.userGuess < 1 || this.userGuess > this.maxNumber) {
-    this.message = `Enter a number between 1 and ${this.maxNumber}`;
-    return;
-  }
+    if (this.userGuess < 1 || this.userGuess > this.maxNumber) {
+      this.message = `Enter a number between 1 and ${this.maxNumber}`;
+      return;
+    }
 
-  this.attempts++;
+    this.attempts++;
 
-  if (this.userGuess < this.secretNumber) {
-    this.message = 'Too low!';
-  } else if (this.userGuess > this.secretNumber) {
-    this.message = 'Too high!';
-  } else {
-    this.message = `Correct! You guessed it in ${this.attempts} attempts.`;
-    this.gameOver = true;
-    await this.saveBestScore();
+    if (this.userGuess < this.secretNumber) {
+      this.message = 'Too low!';
+    } else if (this.userGuess > this.secretNumber) {
+      this.message = 'Too high!';
+    } else {
+      this.message = `Correct! You guessed it in ${this.attempts} attempts.`;
+      this.gameOver = true;
+      await this.saveBestScore();
+    }
   }
-}
 
   async saveBestScore() {
     if (this.difficulty === 'easy') {
@@ -104,15 +111,5 @@ difficulty: string = 'easy';
 
   restartGame() {
     this.startNewGame();
-  }
-
-  async clearGuessScores() {
-    await this.storage.remove('bestEasy');
-    await this.storage.remove('bestMedium');
-    await this.storage.remove('bestHard');
-
-    this.bestEasy = 0;
-    this.bestMedium = 0;
-    this.bestHard = 0;
   }
 }

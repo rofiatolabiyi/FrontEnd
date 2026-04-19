@@ -10,16 +10,38 @@
 <ion-content class="ion-padding">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Your Quiz Scores</ion-card-title>
+      <ion-card-title>Quiz Scores</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <p><strong>Latest Score:</strong> {{ latestScore }}</p>
-      <p><strong>High Score:</strong> {{ highScore }}</p>
-
-      <ion-button expand="block" color="danger" (click)="clearScores()">
-        Clear Scores
-      </ion-button>
+      <p><strong>Latest Quiz Score:</strong> {{ latestScore || 'No score yet' }}</p>
+      <p><strong>Best Quiz Score:</strong> {{ highScore || 'No score yet' }}</p>
     </ion-card-content>
   </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Memory Match</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Best Memory Score:</strong> {{ bestMemory || 'No score yet' }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Number Guess</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Best Easy:</strong> {{ bestEasy || 'No score yet' }}</p>
+      <p><strong>Best Medium:</strong> {{ bestMedium || 'No score yet' }}</p>
+      <p><strong>Best Hard:</strong> {{ bestHard || 'No score yet' }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" color="danger" (click)="clearScores()">
+    Clear All Scores
+  </ion-button>
 </ion-content>

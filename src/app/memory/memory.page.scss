@@ -1,0 +1,21 @@
+.memory-card {
+  height: 130px;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.memory-card:not(.flipped):not(.matched) {
+  background: linear-gradient(135deg, #e466a1, #ee82b6);
+}
+
+.memory-card.flipped {
+  background: linear-gradient(135deg, #ffb6d9, #ffd6ec);
+}
+
+.memory-card.matched {
+  background: linear-gradient(135deg, #a8e7fa, #b2ffd8);
+}
