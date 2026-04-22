@@ -1,2 +1,18 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+:root {
+  --ion-color-primary: #ff6fa5;
+  --ion-color-primary-rgb: 255, 111, 165;
+  --ion-color-primary-contrast: #ffffff;
+
+  --ion-color-secondary: #ffb6d9;
+  --ion-color-secondary-rgb: 255, 182, 217;
+
+  --ion-color-tertiary: #7c7cff;
+  --ion-color-tertiary-rgb: 124, 124, 255;
+
+  --ion-background-color: #0f0f1a;
+  --ion-text-color: #ffffff;
+
+  --ion-card-background: #1e1e2f;
+}

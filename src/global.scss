@@ -35,3 +35,8 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+ion-card {
+  background: #3f2c47;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(139, 43, 78, 0.2);
+}
