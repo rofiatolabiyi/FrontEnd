@@ -1,5 +1,6 @@
 .memory-card {
-  height: 130px;
+  width: 100%;
+  aspect-ratio: 1 / 1; // ✅ makes cards perfectly square
   border-radius: 16px;
   overflow: hidden;
   padding: 0;
@@ -18,4 +19,10 @@
 
 .memory-card.matched {
   background: linear-gradient(135deg, #a8e7fa, #b2ffd8);
+}
+
+.memory-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; // keeps image proportions
 }

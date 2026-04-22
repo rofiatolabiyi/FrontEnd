@@ -1,0 +1,21 @@
+{
+  "name": "Mini Game Hub",
+  "short_name": "GameHub",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "theme_color": "#ff6fa5",
+  "background_color": "#0f0f1a",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
