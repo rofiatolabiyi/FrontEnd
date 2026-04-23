@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Storage } from '@ionic/storage-angular';
-import {IonContent,IonHeader,IonTitle,IonToolbar,IonButtons,IonBackButton,IonCard,IonCardHeader,IonCardTitle,IonCardContent, IonGrid,IonRow,IonCol,IonButton} from '@ionic/angular/standalone';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { Capacitor } from '@capacitor/core';
+import { IonContent,IonHeader,IonTitle,IonToolbar,IonButtons,IonBackButton,IonCard,IonCardHeader,IonCardTitle,IonCardContent,IonGrid,IonRow,IonCol,IonButton } from '@ionic/angular/standalone';
 
 interface MemoryCard {
   id: number;
@@ -15,15 +17,14 @@ interface MemoryCard {
   templateUrl: './memory.page.html',
   styleUrls: ['./memory.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent,IonHeader,IonTitle,IonToolbar,IonButtons,IonBackButton,IonCard,IonCardHeader,IonCardTitle,IonCardContent, IonGrid,IonRow,IonCol,IonButton
-  ]
+  imports: [IonContent,IonHeader,IonTitle,IonToolbar,IonButtons,IonBackButton,IonCard,IonCardHeader,IonCardTitle,IonCardContent,IonGrid,IonRow,IonCol,IonButton, CommonModule]
 })
 export class MemoryPage implements OnInit {
   cards: MemoryCard[] = [];
   selectedCards: MemoryCard[] = [];
-  moves: number = 0;
-  gameWon: boolean = false;
-  lockBoard: boolean = false;
+  moves = 0;
+  gameWon = false;
+  lockBoard = false;
 
   constructor(private storage: Storage) {}
 
@@ -82,16 +83,74 @@ export class MemoryPage implements OnInit {
     }
   }
 
-  checkForMatch() {
+  triggerMatchFeedback() {
+    void this.runMatchFeedback();
+  }
+
+  triggerMismatchFeedback() {
+    void this.runMismatchFeedback();
+  }
+
+  triggerWinFeedback() {
+    void this.runWinFeedback();
+  }
+
+  async runMatchFeedback() {
+    try {
+      if (Capacitor.isNativePlatform()) {
+        await Haptics.impact({ style: ImpactStyle.Medium });
+        return;
+      }
+
+      if ('vibrate' in navigator) {
+        navigator.vibrate(60);
+      }
+    } catch {
+    }
+  }
+
+  async runMismatchFeedback() {
+    try {
+      if (Capacitor.isNativePlatform()) {
+        await Haptics.vibrate();
+        return;
+      }
+
+      if ('vibrate' in navigator) {
+        navigator.vibrate(120);
+      }
+    } catch {
+    }
+  }
+
+  async runWinFeedback() {
+    try {
+      if (Capacitor.isNativePlatform()) {
+        await Haptics.impact({ style: ImpactStyle.Heavy });
+        return;
+      }
+
+      if ('vibrate' in navigator) {
+        navigator.vibrate([120, 80, 120]);
+      }
+    } catch {
+    }
+  }
+
+  async checkForMatch() {
     const [firstCard, secondCard] = this.selectedCards;
 
     if (firstCard.image === secondCard.image) {
+      this.triggerMatchFeedback();
+
       firstCard.matched = true;
       secondCard.matched = true;
       this.selectedCards = [];
-      this.checkWin();
+      await this.checkWin();
     } else {
       this.lockBoard = true;
+
+      this.triggerMismatchFeedback();
 
       setTimeout(() => {
         firstCard.flipped = false;
@@ -106,6 +165,8 @@ export class MemoryPage implements OnInit {
     this.gameWon = this.cards.every(card => card.matched);
 
     if (this.gameWon) {
+      this.triggerWinFeedback();
+
       const best = await this.storage.get('bestMemory');
 
       if (!best || this.moves < best) {
